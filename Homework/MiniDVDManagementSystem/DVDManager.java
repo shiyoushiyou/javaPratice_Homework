@@ -140,9 +140,12 @@ public class DVDManager {
 
 	//借出DVD
 		public void rentDVD() throws ParseException  {
+			if(dvds.isEmpty()) {
+				System.out.println("集合為空");
+			}else {
 			boolean available = true;
 			for(DVD dvd:dvds) {
-				if(dvd.getState()==1) {
+				if(dvd.getState()==0) {
 					available = false;
 					break;
 				}
@@ -160,21 +163,26 @@ public class DVDManager {
 						System.out.println("此DVD狀態為已借出");
 					}else {
 						String name =dvds.get(rantNum-1).getName();
-						System.out.println("請輸入借出日期格式為yyyy年MM月dd日");
-						String rantDate = new java.util.Scanner(System.in).nextLine();
+//						System.out.println("請輸入借出日期格式為yyyy年MM月dd日");
+//						String rantDate = new java.util.Scanner(System.in).nextLine();
+						DVD dvd =dvds.get(rantNum-1);
 						SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-						dvds.get(rantNum-1).setState(1);
-						dvds.get(rantNum-1).setDate(sdf.parse(rantDate));
-						dvds.get(rantNum-1).setCount(dvds.get(rantNum-1).getCount()+1);
+						dvd.setState(1);
+						dvd.setDate(new Date());
+						dvd.setCount(dvd.getCount()+1);
 						
 						System.out.println("成功借出DVD:"+name);
 						
 					}
 				}
+				}
 			}
 			
 	//歸還DVD
 		public void returnDVD() throws ParseException  {
+			if(dvds.isEmpty()) {
+				System.out.println("集合為空");
+			}else {
 			boolean available =true;
 			for(DVD dvd:dvds) {
 				if(dvd.getState()==0) {
@@ -185,7 +193,7 @@ public class DVDManager {
 				if(available==true) {
 					System.out.println("沒有可借DVD");
 				}else {
-					System.out.println("輸入租借DVD之序號");
+					System.out.println("輸入歸還DVD之序號");
 					int rantNum = new java.util.Scanner(System.in).nextInt();
 					if(rantNum<1||rantNum>dvds.size()) {
 						System.out.println("你輸入的序號超出數組範圍");
@@ -193,21 +201,15 @@ public class DVDManager {
 						System.out.println("此DVD狀態為可借");
 					}else {
 						String name = dvds.get(rantNum-1).getName();
-						System.out.println("請輸入還DVD日期格式為yyyy-MM-dd HH:mm");
-						String rantDate = new java.util.Scanner(System.in).nextLine();
-						dvds.get(rantNum-1).setState(0);
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-						Date returnday = sdf.parse(rantDate);
-						long rant = dvds.get(rantNum-1).getDate().getTime();
-						long return_ = returnday.getTime();
-						int day =(int)((return_-rant)/(1000*60*60*24));
-						if(day<1) {
-							day++;
-						}
-						int money = day;
+						DVD dvd =dvds.get(rantNum-1);
+						long rant = dvd.getDate().getTime();
+						long return_ = System.currentTimeMillis();
+						int day =(int)((return_- rant)/(1000*60*60*24))+1;
 						dvds.get(rantNum-1).setDate(null);
-						System.out.println("成功歸還DVD:"+name+"共使用了"+day+"天，花費為"+money);
+						dvds.get(rantNum-1).setState(0);
+						System.out.println("成功歸還DVD:"+name+"共使用了"+day+"天，花費為"+day);
 					}
+				}
 				}
 			}
 
