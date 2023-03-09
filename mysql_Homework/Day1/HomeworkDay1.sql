@@ -5,6 +5,7 @@ SELECT 地域 FROM 都道府県 ;
 SELECT 都道府県名 FROM 都道府県 ;
 SELECT 県庁所在地 FROM 都道府県 ;
 SELECT 面積 FROM 都道府県 ;
+SELECT コード,地域,都道府県名,県庁所在地 ,面積 FROM 都道府県
 --②列名の指定を省略して、①と同様の結果を取得する。
 SELECT * FROM 都道府県;
 --③「地域」「都道府県名」の列について、「area」と[pref」という別名を付けてすべての行を取得する。
