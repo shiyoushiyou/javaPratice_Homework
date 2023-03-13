@@ -12,11 +12,11 @@
 */
 
 --１．飼育県別に飼育頭数をカウントし、その結果を次の頭数集計テーブルに登録する。
-SELECT 飼育県,COUNT(出生日)頭数 FROM 個体識別 GROUP BY 飼育県;
+INSERT INTO 頭数集計 (SELECT 飼育県,COUNT(出生日)頭数 FROM 個体識別 GROUP BY 飼育県);
 
 --２．１で作成した頭数集計テーブルで、飼育頭数の多いほうから３つの都道府県で飼育されている牛のデータを、個体識別テーブルにより抽出する。
 SELECT
-    飼育県
+    飼育県 都道府県名
     , 個体識別番号
     , (CASE 雌雄コード WHEN 1 THEN '雄' ELSE '雌' END) 雌雄 
 FROM
@@ -30,17 +30,13 @@ WHERE
                 SELECT
                     飼育県 
                 FROM
-                    個体識別 
-                GROUP BY
-                    飼育県 
+                    頭数集計 
                 ORDER BY
-                    COUNT(*) DESC 
+                    頭数 DESC
                 LIMIT
                     3
             ) 飼育県
-    ) 
-ORDER BY
-    飼育県 DESC;
+    ) ;
 
 --３．個体識別テーブルに母牛についてもデータ登録されており、母牛が乳用種である牛の一覧を個体識別テーブルにより抽出したい。
 SELECT
@@ -56,6 +52,6 @@ SELECT
     , 母牛番号 
 FROM
     個体識別
-WHERE 雌雄コード = 2;
+WHERE 母牛番号 IN (SELECT 個体識別番号 FROM 個体識別 WHERE 品種コード = 1 );
 
 
