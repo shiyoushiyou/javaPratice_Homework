@@ -54,4 +54,22 @@ FROM
     個体識別
 WHERE 母牛番号 IN (SELECT 個体識別番号 FROM 個体識別 WHERE 品種コード = 1 );
 
+SELECT
+    牛寶寶.個体識別番号
+    , ( 
+        CASE 牛寶寶.品種コード 
+            WHEN '01' THEN '乳用種' 
+            WHEN '02' THEN '肉用種' 
+            WHEN '03' THEN '交雑種' 
+            END
+    ) 品種
+    , 牛寶寶.出生日
+    , 牛寶寶.母牛番号 
+FROM
+    個体識別 牛寶寶
+JOIN
+    個体識別 牛媽媽
+ON
+    牛寶寶.母牛番号 = 牛媽媽.個体識別番号
+    AND 牛媽媽.品種コード = 1;
 
