@@ -32,18 +32,18 @@ public class DVDManager {
 					System.out.println("刪除DVD");
 					deleteDVD();
 					break;
-//				case 4:
-//					System.out.println("借出DVD");
-//					rentDVD();
-//					break;
-//				case 5:
-//					System.out.println("歸還DVD");
-//					returnDVD() ;
-//					break;
-//				case 6:
-//					System.out.println("退出DVD");
-//					exitDVD();
-//					break;
+				case 4:
+					System.out.println("借出DVD");
+					rentDVD();
+					break;
+				case 5:
+					System.out.println("歸還DVD");
+					returnDVD() ;
+					break;
+				case 6:
+					System.out.println("退出DVD");
+					exitDVD();
+					break;
 				default:
 					//TODO 輸入數字範圍不正的情況下，請重新輸入
 					System.out.println("請輸入1~6之間的數字");
@@ -79,7 +79,6 @@ public class DVDManager {
 			
 		}
 		
-
      	//查看DVD
 		public void selectDVD() {
 			System.out.println("序號\t狀態\t名稱\t\t借出日期\t\t借出次數");
@@ -92,99 +91,71 @@ public class DVDManager {
 
 	   //刪除DVD
 		public void deleteDVD() {
-				if(DVDDao.DelectFlagZero()<0) {
+				int count = DVDDao.DelectFlagZero(0);
+				if(count <=0) {
 					System.out.println("沒有可刪除DVD");
 				}else {
 					System.out.println("請輸入刪除DVD序號");
 					Scanner Sca =new Scanner(System.in);
 					int deleteNum = Sca.nextInt();
-					if(DVDDao.idOfDelectFlag(deleteNum)==null) {
+					DVD dvd  =DVDDao.getDVDById(deleteNum);
+					
+					if(dvd.getName()==null) {
 						System.out.println("沒有此張DVD");
+						}else if(dvd.getState()==1){
+							System.out.println("此張DVD狀態為已借出");		
 					}else{
-						String Name = DVDDao.idOfDelectFlag(deleteNum);
-						System.out.println("找到此張DVD"+Name);
 						DVDDao.deleteDVD(deleteNum);
-						System.out.println("DVD"+Name+"已被刪除");
+						System.out.println("DVD"+dvd.getName()+"已被刪除");
 						selectDVD() ;
 					}
 					
 				}
 			}
-//	//借出DVD
-//		public void rentDVD() throws ParseException  {
-//			if(dvds.isEmpty()) {
-//				System.out.println("集合為空");
-//			}else {
-//			boolean available = true;
-//			for(DVD dvd:dvds) {
-//				if(dvd.getState()==0) {
-//					available = false;
-//					break;
-//				}
-//			}
-//				if(available) {
-//					System.out.println("沒有可借出DVD");
-//				}else {
-//					System.out.println("輸入借出DVD之序號");
-//					int rantNum = new java.util.Scanner(System.in).nextInt();
-//					if(rantNum<1||rantNum>dvds.size()) {
-//						System.out.println("你輸入的序號超出數組範圍");
-//					}else if(dvds.get(rantNum-1)==null) {
-//						System.out.println("查找不到相符的DVD");
-//					}else if (dvds.get(rantNum-1).getState()==1) {
-//						System.out.println("此DVD狀態為已借出");
-//					}else {
-//						String name =dvds.get(rantNum-1).getName();
-////						System.out.println("請輸入借出日期格式為yyyy年MM月dd日");
-////						String rantDate = new java.util.Scanner(System.in).nextLine();
-//						DVD dvd =dvds.get(rantNum-1);
-//						
-//						dvd.setState(1);
-//						dvd.setDate(new Date());
-//						dvd.setCount(dvd.getCount()+1);
-//						
-//						System.out.println("成功借出DVD:"+name);
-//						
-//					}
-//				}
-//				}
-//			}
-//			
-//	//歸還DVD
-//		public void returnDVD() throws ParseException  {
-//			if(dvds.isEmpty()) {
-//				System.out.println("集合為空");
-//			}else {
-//			boolean available =true;
-//			for(DVD dvd:dvds) {
-//				if(dvd.getState()==0) {
-//					available = false;
-//					break;
-//				}
-//			}
-//				if(available==true) {
-//					System.out.println("沒有可借DVD");
-//				}else {
-//					System.out.println("輸入歸還DVD之序號");
-//					int rantNum = new java.util.Scanner(System.in).nextInt();
-//					if(rantNum<1||rantNum>dvds.size()) {
-//						System.out.println("你輸入的序號超出數組範圍");
-//					}else if (dvds.get(rantNum-1).getState()==0) {
-//						System.out.println("此DVD狀態為可借");
-//					}else {
-//						String name = dvds.get(rantNum-1).getName();
-//						DVD dvd =dvds.get(rantNum-1);
-//						long rant = dvd.getDate().getTime();
-//						long return_ = System.currentTimeMillis();
-//						int day =(int)((return_- rant)/(1000*60*60*24))+1;
-//						dvds.get(rantNum-1).setDate(null);
-//						dvds.get(rantNum-1).setState(0);
-//						System.out.println("成功歸還DVD:"+name+"共使用了"+day+"天，花費為"+day);
-//					}
-//				}
-//				}
-//			}
-//
+	//借出DVD
+		public void rentDVD()  {
+			int count = DVDDao.DelectFlagZero(0);
+			if(count <=0) {
+				System.out.println("沒有可借出DVD");
+			}else {
+					System.out.println("輸入借出DVD之序號");
+					int rantNum = new java.util.Scanner(System.in).nextInt();
+					DVD dvd  =DVDDao.getDVDById(rantNum);
+					if(dvd.getName()==null) {
+						System.out.println("沒有此張DVD");
+					}else if(dvd.getState()==1){
+						System.out.println("此張DVD狀態為已借出");		
+					}else {
+						DVDDao.rentDVD(rantNum);
+						System.out.println("成功借出DVD:"+DVDDao.idOfDelectFlag(rantNum));
+						selectDVD() ;
+						
+					}
+				}
+	}
+			
+	//歸還DVD
+		public void returnDVD()  {
+			int count = DVDDao.DelectFlagZero(0);
+			if(count <=0) {
+				System.out.println("沒有可歸還DVD");
+			}else {
+					System.out.println("輸入歸還DVD之序號");
+					int rantNum = new java.util.Scanner(System.in).nextInt();
+					DVD dvd  =DVDDao.getDVDById(rantNum);
+					if(dvd.getName()==null) {
+						System.out.println("沒有此張DVD");
+					}else if (dvd.getState()==0) {
+						System.out.println("此DVD狀態為可借");
+					}else {
+						DVDDao.returnDVD(rantNum);
+						System.out.println("DVD"+dvd.getName()+"已被歸還");
+						selectDVD() ;
+						}
+				}
+	}
+			
+
 
 	//退出DVD
 		public void exitDVD() {
