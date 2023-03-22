@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>フォーム form 表單</title>
+</head>
+<body>
+    <form action="practice0317.html" method="get">
+        <!-- placeholder 佔位符 點擊輸入後提示訊息會消失 -->
+        DVD名稱：<input type="text" placeholder="請輸入DVD名稱"><br>
+        <!--value 點擊輸入後將從提示訊息後開始輸入 -->
+        DVD名稱：<input type="text" value="羅馬假日" maxlength="10"><br>
+        <!-- &nbsp空格 -->
+        密碼：&nbsp;<input type="password">
+        <br>
+        <br>
+        <br>
+        <!-- 使用table讓欄位對齊 -->
+        <table>
+            <tr>
+                <td>DVD名稱</td>
+                <td>：</td>
+                <td><input type="text" placeholder="請輸入DVD名稱" name="name"></td>
+            </tr>
+            <tr>
+                <td>DVD名稱</td>
+                <td>：</td>
+                <td><input type="text" value="羅馬假日" maxlength="10" name="name2"></td>
+            </tr>
+            <tr>
+                <td>密碼</td>
+                <td>：</td>
+                <td><input type="password" name="password"></td>
+            </tr>
+            <tr>
+                <td>性別</td>
+                <td>：</td>
+                <td>
+                    <input type="radio" name="gender" value="male" checked>男
+                    <input type="radio" name="gender" value="female">女
+
+                </td>
+            </tr>
+            <tr>
+                <td>顏色</td>
+                <td>：</td>
+                <td>
+                    <!-- チェックボックス -->
+                    <input type="checkbox" name="color" value="red">紅
+                    <input type="checkbox" name="color" value="yellow" checked>黃
+                    <!-- 非活性 -->
+                    <input type="checkbox" name="color" value="blue" disabled>藍
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <input type="button" value="button">
+                    <input type="reset">
+                    <input type="submit">
+                </td>
+            </tr>
+            <tr>
+                <td>血型</td>
+                <td>:</td>
+                <td>
+                    <select name="bloodType" multiple size="5">
+                        <!-- セレクトボックス(プルダウン) -->
+                        <option >---</option>
+                        <option value="A">A型</option>
+                        <option value="B">B型</option>
+                        <option value="AB" selected>AB型</option>
+                        <option value="O">O型</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>DVD說明</td>
+                <td>：</td>
+                <td>
+                    <!-- 複數行的text框  -->
+                    <textarea name = "info" placeholder="請輸入DVD說明" style="resize: none;" rows="5" cols = "15"></textarea>
+                    <textarea >這是最新的DVD</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>旅遊</td>
+                <td>：</td>
+                <td>
+                    <input type="checkbox" name ="traval" value ="Japen" id = "Japen">
+                    <label for = "Japen">日本</label>
+                    <input type="checkbox" name ="traval" value ="Europe" id="Europe">
+                    <label for ="Europe">歐洲</label>
+                    <input type="checkbox" name ="traval" value ="ES-Asia" id="ESASIA">
+                    <label for ="ESASIA">東南亞</label>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</body>
+</html>
