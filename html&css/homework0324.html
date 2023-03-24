@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>フォーム検証</title>
+    <script>
+        /*
+        表單驗證
+        1.用戶名不可為空
+        2.密碼長度不可小於6位
+        3.確認密碼要和密碼一致
+        4.追加"登錄"按鈕。表單驗證成功後才可以"登錄"
+        5.追加題：用戶名必須是數字或者小寫英文字，並且首字母必須是英文
+        */
+       function IdCheck(){
+        var userId = document.getElementById("name").value;
+        var msg = document.querySelector("#msg");
+        var msgOK = document.querySelector("#msgOK1");
+        if(userId==null||userId.length==0||userId.includes(" ")){
+            msg.innerText ="輸入的名字不符合格式!"; 
+            msg.style.color = "red";
+        //5.追加題的正則表達式
+        }else if(!/^[a-z][a-z\d]*$/i.test(userId)){
+            msg.innerText ="首字必須為英文"
+            msg.style.color = "red";
+        }else{
+            msg.innerText = null;
+            msgOK.innerText ="✓";
+            msgOK.style.color = "green";
+            return  true;
+        }
+        }
+       function pwdCheck(){
+        var userPwd = document.getElementById("password").value;
+        var msg = document.querySelector("#msg");
+        var msgOK = document.querySelector("#msgOK2");
+
+        if(userPwd==null||userPwd.length==0||userPwd.includes(" ")){
+            msg.innerText ="輸入的密碼不符合格式!"; 
+            msg.style.color = "red";
+        }else if(userPwd.length<6){
+            msg.innerText ="輸入密碼小於6位"
+            msg.style.color = "red";
+        }else{
+            msg.innerText = null;
+            msgOK.innerText ="✓";
+            msgOK.style.color = "green";
+            return  true;
+        }
+        }
+       function samePwd(){
+        var userPwd = document.getElementById("password").value;
+        var confirmPwd = document.getElementById("password2").value;
+        var msgOK = document.querySelector("#msgOK3");
+        var msg = document.querySelector("#msg");
+        if(userPwd==confirmPwd){
+            msg.innerText = null;
+            msgOK.innerText ="✓";
+            msgOK.style.color = "green";
+            return true;
+            
+            }else{
+                msg.innerText ="兩次密碼不一致"; 
+                msg.style.color = "red"; 
+            }
+        }
+       
+        function finalCheck(){
+        if(IdCheck()==true&&pwdCheck()==true&&samePwd()==true){
+            alert("成功登錄用戶");
+         }else{
+            alert("用戶資訊不完整，請再次確認是否符合格式");  
+         }
+        }
+    </script>
+</head>
+<body>
+    <form action="#" method="post">
+        <table>
+            <tr>
+                <td>ユーザーID</td>
+                <td>：</td>
+                <td>
+                    <input type ="text" id = "name" placeholder="請輸入用戶ID" onblur = "IdCheck();">
+                    <span id ="msgOK1"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>パスワード</td>
+                <td>：</td>
+                <td>
+                    <input type ="password" id = "password" placeholder="請輸入password" onblur = "pwdCheck();">
+                    <span id ="msgOK2"></span>   
+                </td>
+            </tr>
+            <tr>
+                <td>確認パスワード</td>
+                <td>：</td>
+                <td>
+                    <input type ="password" id = "password2" placeholder="請再次輸入password" onblur = "samePwd();">
+                    <span id ="msgOK3"></span>   
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="finalCheck();">新增</button>
+                </td>
+            </tr>
+            <br>
+            <span id ="msg"></span>
+        </table>
+
+    </form>
+</body>
+</html>
